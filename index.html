@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Romisa ❤️ Raj</title>
+
+<style>
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#ffe6f0,#fff0f5);
+text-align:center;
+overflow:hidden;
+margin:0;
+}
+
+/* floating hearts */
+.heart{
+position:fixed;
+bottom:-20px;
+font-size:20px;
+animation:float 4s linear forwards;
+}
+@keyframes float{
+to{transform:translateY(-100vh);opacity:0;}
+}
+
+/* main box */
+.box{
+margin-top:80px;
+padding:20px;
+}
+
+/* buttons */
+button{
+padding:12px 25px;
+margin:10px;
+font-size:18px;
+border:none;
+border-radius:25px;
+cursor:pointer;
+}
+
+.yes{
+background:#ff4d6d;
+color:white;
+}
+
+.no{
+background:gray;
+color:white;
+position:absolute;
+}
+
+/* anime boy */
+.boy{
+font-size:70px;
+transition:0.3s;
+}
+
+/* music button */
+#musicBtn{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:#ff4d6d;
+color:white;
+display:none;
+}
+
+/* hidden */
+.hidden{
+display:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="Justin_Bieber_-_Love_Me(256k).mp3" type="audio/mpeg">
+</audio>
+
+<button id="musicBtn">Tap to play our song ❤️</button>
+
+<div class="box" id="game">
+
+<div class="boy" id="boy">😊</div>
+
+<h2 id="q">Loading...</h2>
+
+<button class="yes" onclick="yes()">Yes 💖</button>
+<button class="no" id="noBtn" onmouseover="moveNo()">No 😏</button>
+
+</div>
+
+<div class="box hidden" id="final">
+<h2>Romisa ❤️</h2>
+<p>
+You make my life better 🥺💖<br>
+Even from far away, you make me smile ❤️<br>
+I love you so much 💕<br>
+– Raj
+</p>
+<button onclick="surprise()">Open Surprise 🎁</button>
+</div>
+
+<script>
+
+/* questions */
+let qn=0;
+let questions=[
+"Romisa, do you love Raj? 😍",
+"Do you miss him? 😌",
+"Is Raj your favorite person? 💕",
+"Do you smile when you see his messages? 🥺",
+"Do you want a surprise? 🎁",
+"Ready for something special? 💖"
+];
+
+document.getElementById("q").innerText=questions[0];
+
+/* YES */
+function yes(){
+happyBoy();
+qn++;
+
+if(qn<questions.length){
+setTimeout(()=>{
+document.getElementById("q").innerText=questions[qn];
+},500);
+}else{
+document.getElementById("game").classList.add("hidden");
+document.getElementById("final").classList.remove("hidden");
+celebrate();
+}
+}
+
+/* NO RUN AWAY */
+function moveNo(){
+let btn=document.getElementById("noBtn");
+let x=Math.random()*(window.innerWidth-100);
+let y=Math.random()*(window.innerHeight-50);
+
+btn.style.left=x+"px";
+btn.style.top=y+"px";
+
+angryBoy();
+}
+
+/* anime reactions */
+function happyBoy(){
+let b=document.getElementById("boy");
+b.innerText="😍";
+b.style.transform="scale(1.2)";
+setTimeout(()=>{
+b.innerText="😊";
+b.style.transform="scale(1)";
+},600);
+}
+
+function angryBoy(){
+let b=document.getElementById("boy");
+b.innerText="😤";
+b.style.transform="scale(1.1)";
+setTimeout(()=>{
+b.innerText="😊";
+b.style.transform="scale(1)";
+},600);
+}
+
+/* floating hearts */
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),4000);
+},400);
+
+/* surprise */
+function surprise(){
+alert("I love you so much Romisa 💖");
+}
+
+/* celebration */
+function celebrate(){
+for(let i=0;i<25;i++){
+setTimeout(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),4000);
+},i*80);
+}
+}
+
+/* MUSIC SYSTEM */
+let music=document.getElementById("bgMusic");
+let btn=document.getElementById("musicBtn");
+
+window.onload=function(){
+music.volume=0.4;
+music.play().catch(()=>{
+btn.style.display="block";
+});
+}
+
+btn.onclick=function(){
+music.play();
+btn.style.display="none";
+}
+
+</script>
+
+</body>
+  </html>
