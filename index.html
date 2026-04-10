@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Romisa ❤️ Raj</title>
+
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+<style>
+body {
+  font-family: sans-serif;
+  background: linear-gradient(135deg,#ffd6e0,#fff0f5);
+  text-align:center;
+  margin:0;
+}
+
+.screen { display:none; height:100vh; justify-content:center; align-items:center; flex-direction:column;}
+.active { display:flex; }
+
+.card {
+  background:white;
+  padding:20px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+button {
+  padding:12px 20px;
+  border:none;
+  border-radius:20px;
+  margin:10px;
+  font-size:16px;
+}
+
+.yes { background:#ff4f8f; color:white;}
+.no { background:#ccc;}
+
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
+
+<!-- WELCOME -->
+<div class="screen active" id="welcome">
+  <div class="card">
+    <lottie-player id="char"
+      src="https://assets2.lottiefiles.com/packages/lf20_kkflmtur.json"
+      style="width:150px;height:150px;"
+      loop autoplay>
+    </lottie-player>
+
+    <h1>Romisa ❤️ Raj</h1>
+    <p>Just for you 💖</p>
+    <button onclick="start()">Start 💕</button>
+  </div>
+</div>
+
+<!-- QUESTIONS -->
+<div class="screen" id="q">
+  <div class="card">
+    <lottie-player id="char2"
+      src="https://assets2.lottiefiles.com/packages/lf20_kkflmtur.json"
+      style="width:150px;height:150px;"
+      loop autoplay>
+    </lottie-player>
+
+    <h2 id="text"></h2>
+
+    <button class="yes" onclick="yes()">Yes 💖</button>
+    <button class="no" onclick="no()">No 😤</button>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div class="screen" id="final">
+  <div class="card">
+    <lottie-player
+      src="https://assets7.lottiefiles.com/packages/lf20_touohxv0.json"
+      style="width:150px;height:150px;"
+      loop autoplay>
+    </lottie-player>
+
+    <h1>I love you Romisa 💖</h1>
+  </div>
+</div>
+
+<script>
+let music = document.getElementById("music");
+
+function start(){
+  // 🔥 music starts here (FIXED)
+  music.play();
+
+  show("q");
+  next();
+}
+
+function show(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+let i=0;
+let q=[
+"Do you miss me? 💖",
+"Do I make you smile? 🥺",
+"Do you love me? 💕"
+];
+
+function next(){
+  if(i<q.length){
+    document.getElementById("text").innerText=q[i];
+  }else{
+    show("final");
+  }
+}
+
+function yes(){
+  // 😍 happy animation
+  document.getElementById("char2").setAttribute("src",
+  "https://assets7.lottiefiles.com/packages/lf20_touohxv0.json");
+
+  i++;
+  setTimeout(next,800);
+}
+
+function no(){
+  // 😤 angry animation
+  document.getElementById("char2").setAttribute("src",
+  "https://assets2.lottiefiles.com/packages/lf20_q5pk6p1k.json");
+}
+</script>
+
+</body>
+      </html>
