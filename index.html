@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Romisa ❤️ Raj</title>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --pink-1: #fff1f6;
+      --pink-2: #ffdce8;
+      --pink-3: #ffb7cf;
+      --pink-4: #ff7cab;
+      --pink-5: #ff4f8f;
+      --text: #6b2647;
+      --white: rgba(255,255,255,0.88);
+      --shadow: 0 18px 45px rgba(255, 92, 143, 0.22);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--pink-1), var(--pink-2), #fff6fa);
+      color: var(--text);
+      position: relative;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 116, 167, 0.20), transparent 25%),
+        radial-gradient(circle at 80% 25%, rgba(255, 178, 205, 0.28), transparent 22%),
+        radial-gradient(circle at 50% 80%, rgba(255, 135, 180, 0.18), transparent 25%);
+      animation: drift 12s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes drift {
+      from { transform: scale(1) translateY(0px); }
+      to { transform: scale(1.06) translateY(-8px); }
+    }
+
+    .floating-heart, .sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+    }
+
+    .floating-heart {
+      font-size: 20px;
+      animation: heartUp 5.5s linear forwards;
+    }
+
+    .sparkle {
+      font-size: 14px;
+      animation: sparkleAnim 2.2s ease-in-out forwards;
+    }
+
+    @keyframes heartUp {
+      0% { transform: translateY(20px) scale(0.7); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(-120vh) rotate(360deg) scale(1.15); opacity: 0; }
+    }
+
+    @keyframes sparkleAnim {
+      0% { transform: scale(0.2) rotate(0deg); opacity: 0; }
+      40% { opacity: 1; }
+      100% { transform: scale(1.3) rotate(180deg); opacity: 0; }
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 20px;
+      opacity: 0;
+      transform: translateY(18px) scale(0.98);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      z-index: 2;
+    }
+
+    .screen.active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .card {
+      width: min(92vw, 520px);
+      background: var(--white);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 28px 22px;
+      text-align: center;
+      position: relative;
+    }
+
+    .title {
+      font-size: clamp(34px, 8vw, 58px);
+      font-weight: 800;
+      line-height: 1.05;
+      background: linear-gradient(135deg, var(--pink-5), #ff81b4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: clamp(15px, 3.8vw, 21px);
+      color: #a94876;
+      font-weight: 500;
+      margin-bottom: 22px;
+    }
+
+    .tiny {
+      font-size: 13px;
+      color: #b9658b;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.25s ease, opacity 0.2s ease;
+      box-shadow: 0 12px 28px rgba(255, 90, 148, 0.24);
+      min-width: 130px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--pink-5), #ff7cab);
+      color: white;
+    }
+
+    .btn-soft {
+      background: white;
+      color: var(--pink-5);
+    }
+
+    .music-control {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 20;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .autoplay-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 237, 244, 0.55);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      padding: 20px;
+    }
+
+    .autoplay-box {
+      width: min(92vw, 380px);
+      background: rgba(255,255,255,0.96);
+      border-radius: 26px;
+      padding: 28px 22px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .loading-ring {
+      width: 72px;
+      height: 72px;
+      border: 4px solid rgba(255,255,255,0.45);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 18px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .character-wrap {
+      width: 160px;
+      height: 160px;
+      margin: 8px auto 8px;
+    }
+
+    .speech {
+      background: rgba(255,255,255,0.96);
+      border-radius: 24px;
+      padding: 16px 18px;
+      font-size: clamp(17px, 4.2vw, 22px);
+      font-weight: 600;
+      box-shadow: 0 14px 36px rgba(0,0,0,0.08);
+      margin: 12px 0 18px;
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .progress-outer {
+      width: 100%;
+      max-width: 360px;
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.6);
+      margin: 10px auto 18px;
+    }
+
+    .progress-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff5f97, #ff9fc2);
+      border-radius: 999px;
+      transition: width 0.45s ease;
+    }
+
+    .question-count {
+      font-size: 13px;
+      color: #b1648b;
+      margin-bottom: 14px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      min-height: 72px;
+      position: relative;
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #ff7cab, #ff4f8f);
+      color: white;
+    }
+
+    .btn-no {
+      background: linear-gradient(135deg, #b7f0d1, #8ddfb5);
+      color: #29533a;
+      position: relative;
+    }
+
+    .heart-game-area {
+      width: min(92vw, 520px);
+      height: 330px;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.55);
+      position: relative;
+      overflow: hidden;
+      margin: 16px auto 8px;
+      box-shadow: inset 0 4px 14px rgba(255,255,255,0.55);
+    }
+
+    .tap-heart {
+      position: absolute;
+      font-size: 34px;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+      animation: bob 1.9s ease-in-out infinite;
+      user-select: none;
+    }
+
+    .tap-heart:active {
+      transform: scale(1.28);
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .counter {
+      font-size: 18px;
+      font-weight: 700;
+      color: #a84874;
+      margin-top: 10px;
+    }
+
+    .gift-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(100px, 1fr));
+      gap: 18px;
+      width: min(92vw, 360px);
+      margin: 18px auto 8px;
+    }
+
+    .gift {
+      aspect-ratio: 1 / 1;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #ffb8c9, #ff8db3);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.25s ease;
+    }
+
+    .gift:active {
+      transform: scale(0.97);
+    }
+
+    .gift.opened {
+      background: linear-gradient(135deg, #d7f5e1, #b9efcc);
+    }
+
+    .gift-note {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #a64873;
+      min-height: 20px;
+      font-weight: 600;
+    }
+
+    .notes-grid {
+      display: grid;
+      gap: 12px;
+      width: min(92vw, 440px);
+      margin-top: 12px;
+    }
+
+    .note-card {
+      background: rgba(255,255,255,0.92);
+      border-radius: 20px;
+      padding: 16px 18px;
+      text-align: left;
+      box-shadow: 0 12px 30px rgba(255, 90, 148, 0.14);
+      font-size: 15px;
+      color: #8e3e63;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.25s ease;
+    }
+
+    .note-card.open {
+      background: white;
+      transform: translateY(-2px);
+    }
+
+    .letter {
+      text-align: left;
+      line-height: 1.8;
+      font-size: 16px;
+      color: #7d3256;
+      margin-top: 8px;
+    }
+
+    .letter h3 {
+      color: var(--pink-5);
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .final-big {
+      font-size: clamp(30px, 8vw, 54px);
+      font-weight: 800;
+      color: var(--pink-5);
+      margin-bottom: 10px;
+    }
+
+    .final-text {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #89395f;
+      margin: 10px 0 20px;
+    }
+
+    .fade-in {
+      animation: fadeUp 0.6s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 24px 16px;
+        border-radius: 24px;
+      }
+      .btn {
+        min-width: 120px;
+        font-size: 15px;
+        padding: 13px 20px;
+      }
+      .character-wrap {
+        width: 138px;
+        height: 138px;
+      }
+      .gift-grid {
+        gap: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <audio id="loveMusic" loop>
+    <source src="Justin_Bieber_-_Love_Me(256k).mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="music-control" id="musicToggle" aria-label="Toggle music">🎵</button>
+
+  <div class="screen active" id="loadingScreen">
+    <div class="card" style="background: linear-gradient(135deg, #ff93b6, #ffb7cf); color: white;">
+      <div class="loading-ring"></div>
+      <div style="font-size: 26px; font-weight: 700; margin-bottom: 8px;">Preparing something special...</div>
+      <div style="font-size: 16px; opacity: 0.95;">Just for Romisa 💖</div>
+    </div>
+  </div>
+
+  <div class="screen" id="welcomeScreen">
+    <div class="card fade-in">
+      <div class="character-wrap">
+        <lottie-player
+          id="welcomeCharacter"
+          src="https://assets10.lottiefiles.com/packages/lf20_jbrw3hcz.json"
+          background="transparent"
+          speed="1"
+          style="width:100%;height:100%;"
+          loop autoplay>
+        </lottie-player>
+      </div>
+      <div class="title">Romisa ❤️ Raj</div>
+      <div class="subtitle">A little world made just for you</div>
+      <button class="btn btn-primary" onclick="startAdventure()">Start Our Little Adventure 💕</button>
+      <div class="tiny" style="margin-top:14px;">Tap the music button if our song does not start automatically</div>
+    </div>
+  </div>
+
+  <div class="screen" id="questionScreen">
+    <div class="card fade-in">
+      <div class="character-wrap">
+        <lottie-player
+          id="character"
+          src="https://assets10.lottiefiles.com/packages/lf20_jbrw3hcz.json"
+          background="transparent"
+          speed="1"
+          style="width:100%;height:100%;"
+          loop autoplay>
+        </lottie-player>
+      </div>
+
+      <div class="speech" id="speech">Hi Romisa 💖</div>
+
+      <div class="progress-outer">
+        <div class="progress-inner" id="progressBar"></div>
+      </div>
+
+      <div class="question-count" id="questionCount">Question 1 of 8</div>
+
+      <div class="btn-row" id="buttonArea">
+        <button class="btn btn-yes" onclick="answer(true)">Yes 💖</button>
+        <button class="btn btn-no" id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo()">No 😤</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="heartGameScreen">
+    <div class="card fade-in">
+      <div class="title" style="font-size: clamp(28px, 7vw, 40px);">Catch My Hearts 💘</div>
+      <div class="subtitle" style="margin-bottom: 8px;">Tap all 15 hearts to continue</div>
+      <div class="heart-game-area" id="heartGameArea"></div>
+      <div class="counter" id="heartCounter">0 / 15</div>
+    </div>
+  </div>
+
+  <div class="screen" id="giftScreen">
+    <div class="card fade-in">
+      <div class="title" style="font-size: clamp(28px, 7vw, 40px);">Open Your Gifts 🎁</div>
+      <div class="subtitle" style="margin-bottom: 6px;">Tap every box</div>
+      <div class="gift-grid" id="giftGrid"></div>
+      <div class="gift-note" id="giftNote"></div>
+      <div class="tiny" id="giftProgress" style="margin-top:8px;">0 / 4 opened</div>
+    </div>
+  </div>
+
+  <div class="screen" id="notesScreen">
+    <div class="card fade-in">
+      <div class="title" style="font-size: clamp(28px, 7vw, 40px);">Little Things I Feel 💌</div>
+      <div class="subtitle" style="margin-bottom: 8px;">Tap each note</div>
+      <div class="notes-grid" id="notesGrid"></div>
+      <button class="btn btn-primary" id="notesNextBtn" style="margin-top:16px; display:none;" onclick="showScreen('letterScreen')">Continue 💕</button>
+    </div>
+  </div>
+
+  <div class="screen" id="letterScreen">
+    <div class="card fade-in">
+      <div class="letter">
+        <h3>For Romisa ❤️</h3>
+        <p>
+          I did not make this just to be cute. I made it because you matter to me more than you probably know.
+        </p>
+        <p>
+          Even when we are far away, you still make my days feel softer, brighter, and better. You are one of the best parts of my life, and I feel lucky that I get to love you.
+        </p>
+        <p>
+          No matter the distance, my heart stays with you. Your smile, your presence, and even your little moments mean so much to me.
+        </p>
+        <p>
+          I wanted to make something that feels a little different, something you could open and feel that it was made only for you.
+        </p>
+        <p>
+          I love you, Romisa. More than these words can fully say.
+        </p>
+        <p style="text-align:center; margin-top:16px; font-weight:700; color:#ff4f8f;">
+          – Raj
+        </p>
+      </div>
+      <button class="btn btn-primary" style="margin-top:18px;" onclick="showFinal()">One Last Thing 💖</button>
+    </div>
+  </div>
+
+  <div class="screen" id="finalScreen">
+    <div class="card fade-in">
+      <div class="final-big">Romisa ❤️</div>
+      <div class="final-text">
+        I made this just for you.<br>
+        No matter the distance, my heart is always with you.<br><br>
+        You are my favorite person, and I love you forever. 💖
+      </div>
+      <button class="btn btn-primary" onclick="restartExperience()">Play Again? 💕</button>
+    </div>
+  </div>
+
+  <script>
+    const screens = document.querySelectorAll('.screen');
+    const music = document.getElementById('loveMusic');
+    const musicToggle = document.getElementById('musicToggle');
+
+    const character = document.getElementById('character');
+    const speech = document.getElementById('speech');
+    const progressBar = document.getElementById('progressBar');
+    const questionCount = document.getElementById('questionCount');
+    const noBtn = document.getElementById('noBtn');
+
+    const questions = [
+      "Romisa, do you miss Raj when he is away? 💖",
+      "Do my messages make you smile? 🥺",
+      "Am I your favorite person? 😌",
+      "Do you know how special you are to me? ✨",
+      "Do you want more cute surprises from me? 🎁",
+      "Would you choose me again and again? 💕",
+      "Do you feel my love even from far away? 💌",
+      "Are you ready for the sweetest ending? 💖"
+    ];
+
+    const giftMessages = [
+      "You are my favorite person 💖",
+      "Even far away, you make me happy 🌷",
+      "I feel lucky to have you ✨",
+      "I love you so much, Romisa 💕"
+    ];
+
+    const loveNotes = [
+      "Your smile makes everything softer.",
+      "Even distance cannot change how much you mean to me.",
+      "You make normal days feel special.",
+      "My heart always feels close to you.",
+      "You are my comfort and happiness.",
+      "You make life sweeter."
+    ];
+
+    let currentQuestion = 0;
+    let heartHits = 0;
+    let heartSpawnInterval = null;
+    let openedGifts = 0;
+    let openedNotes = 0;
+    let musicStarted = false;
+
+    function showScreen(id) {
+      screens.forEach(screen => screen.classList.remove('active'));
+      const target = document.getElementById(id);
+      if (target) {
+        setTimeout(() => target.classList.add('active'), 80);
+      }
+    }
+
+    function createFloatingHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.innerHTML = Math.random() > 0.5 ? '💖' : '💕';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.bottom = '-30px';
+      heart.style.fontSize = (16 + Math.random() * 16) + 'px';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5600);
+    }
+
+    function createSparkle() {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.innerHTML = Math.random() > 0.5 ? '✨' : '⭐';
+      sparkle.style.left = Math.random() * 100 + 'vw';
+      sparkle.style.top = Math.random() * 100 + 'vh';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 2200);
+    }
+
+    setInterval(createFloatingHeart, 900);
+    setInterval(createSparkle, 1400);
+
+    function burstHearts(count = 10) {
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.className = 'floating-heart';
+          heart.innerHTML = '💖';
+          heart.style.left = (35 + Math.random() * 30) + 'vw';
+          heart.style.bottom = (10 + Math.random() * 20) + 'vh';
+          heart.style.fontSize = (20 + Math.random() * 14) + 'px';
+          document.body.appendChild(heart);
+          setTimeout(() => heart.remove(), 5600);
+        }, i * 70);
+      }
+    }
+
+    function tryAutoplay() {
+      music.volume = 0.4;
+      music.play().then(() => {
+        musicStarted = true;
+        musicToggle.textContent = '⏸️';
+      }).catch(() => {
+        showMusicPrompt();
+      });
+    }
+
+    function showMusicPrompt() {
+      const modal = document.createElement('div');
+      modal.className = 'autoplay-modal';
+      modal.id = 'autoplayModal';
+      modal.innerHTML = `
+        <div class="autoplay-box">
+          <div style="font-size: 28px; font-weight: 800; color: #ff4f8f; margin-bottom: 10px;">Tap to play our song ❤️</div>
+          <div style="font-size: 15px; color: #9b4a70; margin-bottom: 18px;">This browser needs one tap first.</div>
+          <button class="btn btn-primary" onclick="startMusicFromPrompt()">Play 🎵</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+
+    function startMusicFromPrompt() {
+      music.play();
+      musicStarted = true;
+      musicToggle.textContent = '⏸️';
+      const modal = document.getElementById('autoplayModal');
+      if (modal) modal.remove();
+    }
+
+    musicToggle.addEventListener('click', () => {
+      if (music.paused) {
+        music.play();
+        musicToggle.textContent = '⏸️';
+      } else {
+        music.pause();
+        musicToggle.textContent = '🎵';
+      }
+    });
+
+    function setCharacter(url, text) {
+ 
