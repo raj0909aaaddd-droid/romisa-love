@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Romisa ❤️</title>
+
+<style>
+body{
+margin:0;font-family:sans-serif;
+background:linear-gradient(135deg,#ff9a9e,#fecfef);
+color:white;text-align:center;
+overflow:hidden;
+}
+
+/* screens */
+.screen{
+position:absolute;width:100%;height:100%;
+display:flex;flex-direction:column;
+justify-content:center;align-items:center;
+opacity:0;transition:0.5s;
+}
+.screen.active{opacity:1;}
+
+/* button */
+button{
+padding:14px 25px;
+border:none;border-radius:25px;
+background:#ff6b9d;color:white;
+font-size:16px;
+margin-top:15px;
+}
+
+/* music */
+.music{
+position:fixed;bottom:20px;left:50%;
+transform:translateX(-50%);
+background:white;color:black;
+width:60px;height:60px;border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+font-size:22px;
+}
+
+/* hearts */
+.heart{
+position:fixed;font-size:18px;
+animation:float 5s linear forwards;
+}
+@keyframes float{
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-100px);opacity:0}
+}
+
+/* sparkle */
+.spark{
+position:fixed;width:6px;height:6px;
+background:white;border-radius:50%;
+animation:spark 1s forwards;
+}
+@keyframes spark{
+0%{transform:scale(0)}
+100%{transform:scale(1.5);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<div class="music" id="musicBtn">🎵</div>
+<audio id="music" loop>
+<source src="love.mp3">
+</audio>
+
+<!-- COUNTDOWN -->
+<div class="screen active" id="count">
+<h1>Countdown 💖</h1>
+<h2 id="timer">Loading...</h2>
+<button onclick="next()">Continue</button>
+</div>
+
+<!-- UNLOCK -->
+<div class="screen" id="unlock">
+<h1>Tap to unlock 🔒</h1>
+<button onclick="next()">Unlock 💕</button>
+</div>
+
+<!-- CAKE -->
+<div class="screen" id="cake">
+<h1>Tap cake 🎂</h1>
+<h1 onclick="next()">🎂</h1>
+</div>
+
+<!-- STORY -->
+<div class="screen" id="s1">
+<h2>Romisa ❤️</h2>
+<p>You are my favorite person 💖</p>
+<button onclick="next()">Next</button>
+</div>
+
+<div class="screen" id="s2">
+<p>You are my peace and happiness 🥺</p>
+<button onclick="next()">Next</button>
+</div>
+
+<div class="screen" id="s3">
+<p>I miss you every day 💕</p>
+<button onclick="next()">Next</button>
+</div>
+
+<!-- GAME -->
+<div class="screen" id="g1">
+<h2>Tap hearts 💖</h2>
+<p id="score">0</p>
+<button onclick="addHeart()">Tap</button>
+<button onclick="next()">Next</button>
+</div>
+
+<!-- FINAL -->
+<div class="screen" id="final">
+<h1>Happy Birthday ❤️</h1>
+<p>I love you so much Romisa 💖</p>
+<button onclick="location.reload()">Again</button>
+</div>
+
+<script>
+let index = 0;
+
+let screens = [
+"count","unlock","cake",
+"s1","s2","s3",
+"g1","final"
+];
+
+function next(){
+if(index < screens.length - 1){
+document.getElementById(screens[index]).classList.remove("active");
+index++;
+document.getElementById(screens[index]).classList.add("active");
+}
+}
+
+/* MUSIC */
+let music = document.getElementById("music");
+let started = false;
+
+document.addEventListener("click", function(){
+if(!started){
+music.play().catch(()=>{});
+started = true;
+}
+},{once:true});
+
+document.getElementById("musicBtn").onclick = function(){
+if(music.paused){music.play();}
+else{music.pause();}
+};
+
+/* COUNTDOWN */
+function update(){
+let target = new Date("May 27, 2026");
+let now = new Date();
+let diff = target - now;
+
+if(diff <= 0){
+document.getElementById("timer").innerText = "Today 🎂";
+return;
+}
+
+let days = Math.floor(diff / (1000*60*60*24));
+document.getElementById("timer").innerText = days + " days";
+}
+setInterval(update,1000);
+update();
+
+/* HEART GAME */
+function addHeart(){
+let h=document.createElement("div");
+h.innerText="💖";
+h.className="heart";
+h.style.left=Math.random()*100+"%";
+document.body.appendChild(h);
+
+setTimeout(()=>h.remove(),5000);
+
+let score = document.getElementById("score");
+score.innerText = parseInt(score.innerText) + 1;
+}
+
+/* SPARKLE */
+document.addEventListener("click",(e)=>{
+let s=document.createElement("div");
+s.className="spark";
+s.style.left=e.clientX+"px";
+s.style.top=e.clientY+"px";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),1000);
+});
+</script>
+
+</body>
+  </html>
