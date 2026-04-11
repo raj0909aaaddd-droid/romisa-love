@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Romisa ❤️ Raj</title>
+
+<style>
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:linear-gradient(135deg,#ff9a9e,#fecfef);
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* container */
+.container{
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  width:90%;
+  max-width:420px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+  position:relative;
+  z-index:2;
+}
+
+h1{
+  color:#ff4f8f;
+}
+
+/* emoji animation */
+.emoji{
+  font-size:40px;
+  margin:15px 0;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink{
+  0%,100%{opacity:1; transform:scale(1);}
+  50%{opacity:0.5; transform:scale(1.2);}
+}
+
+/* question */
+.question{
+  font-size:20px;
+  margin:20px 0;
+  min-height:60px;
+}
+
+/* buttons */
+button{
+  padding:12px 25px;
+  margin:10px;
+  border:none;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+button:hover{
+  transform:scale(1.05);
+}
+
+.yes{
+  background:#ff4f8f;
+  color:white;
+}
+
+.no{
+  background:#eee;
+}
+
+/* music button */
+.music{
+  position:fixed;
+  top:15px;
+  right:15px;
+  font-size:22px;
+  cursor:pointer;
+  z-index:10;
+}
+
+/* floating hearts */
+#hearts{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:1;
+}
+
+.heart{
+  position:absolute;
+  font-size:20px;
+  animation: float 4s linear forwards;
+}
+
+@keyframes float{
+  0%{transform:translateY(100vh); opacity:1;}
+  100%{transform:translateY(-10vh); opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div id="hearts"></div>
+
+<div class="music" onclick="toggleMusic()">🎵</div>
+
+<audio id="music" loop>
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+
+<h1>Romisa ❤️ Raj</h1>
+
+<div class="emoji" id="emoji">💖 😊 💕</div>
+
+<!-- start -->
+<div id="screen1">
+  <button onclick="start()">Start 💕</button>
+</div>
+
+<!-- questions -->
+<div id="screen2" style="display:none;">
+  <div class="question" id="question"></div>
+  <button class="yes" onclick="yes()">Yes 💖</button>
+  <button class="no" id="noBtn">No 😤</button>
+</div>
+
+<!-- final -->
+<div id="screen3" style="display:none;">
+  <div class="emoji">💖💖💖</div>
+  <h2>I love you Romisa ❤️</h2>
+  <p>You are my happiness, my peace, my everything.</p>
+</div>
+
+</div>
+
+<script>
+
+/* questions */
+const questions = [
+"Do you miss me? 💕",
+"Do I make you smile? 😊",
+"Am I your favorite person? ❤️",
+"Do you think about me before sleeping? 🌙",
+"Do you feel happy when I text you? 💌",
+"Would you hug me if I was there? 🤗",
+"Do you want to stay with me forever? 💖",
+"Do I mean something special to you? ✨",
+"Will you always choose me? ❤️"
+];
+
+let i = 0;
+
+/* start */
+function start(){
+  document.getElementById("screen1").style.display="none";
+  document.getElementById("screen2").style.display="block";
+  showQuestion();
+}
+
+/* show question */
+function showQuestion(){
+  document.getElementById("question").innerText = questions[i];
+}
+
+/* yes */
+function yes(){
+  changeEmoji("😍💖✨");
+
+  i++;
+
+  if(i<questions.length){
+    setTimeout(()=>{
+      changeEmoji("💖 😊 💕");
+      showQuestion();
+    },800);
+  }else{
+    end();
+  }
+}
+
+/* end */
+function end(){
+  document.getElementById("screen2").style.display="none";
+  document.getElementById("screen3").style.display="block";
+  changeEmoji("💖💖💖");
+}
+
+/* emoji change */
+function changeEmoji(text){
+  document.getElementById("emoji").innerText = text;
+}
+
+/* no button run away */
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart",(e)=>{
+  e.preventDefault();
+  moveNo();
+});
+
+function moveNo(){
+  changeEmoji("😤💔");
+
+  const x = Math.random()*250-125;
+  const y = Math.random()*250-125;
+
+  noBtn.style.position="relative";
+  noBtn.style.left = x+"px";
+  noBtn.style.top = y+"px";
+}
+
+/* music */
+function toggleMusic(){
+  const m = document.getElementById("music");
+  if(m.paused){
+    m.play();
+  }else{
+    m.pause();
+  }
+}
+
+/* autoplay fix */
+document.body.addEventListener("click",()=>{
+  document.getElementById("music").play().catch(()=>{});
+},{once:true});
+
+/* floating hearts */
+setInterval(()=>{
+  const heart = document.createElement("div");
+  heart.innerText = "💖";
+  heart.className = "heart";
+  heart.style.left = Math.random()*100+"%";
+  document.getElementById("hearts").appendChild(heart);
+
+  setTimeout(()=>heart.remove(),4000);
+},500);
+
+</script>
+
+</body>
+  </html>
